@@ -1,0 +1,26 @@
+John Kutbay
+
+Time Log
+--------
+1 hr: creating project concept
+1 hr: deciphering how and where to make UI
+1 hr: learning relatively advanced python
+1.5 hr: coding Blackjack in python (not finished yet)
+--------
+4.5 hr total
+
+Rubric
+--------
+25 pts: program compiles and completes majority of tasks
+10 pts: time log and summaries are completed and accurate
+5 pts: program uses at least one data structure covered
+
+Summary
+---------
+This challenge was relatively straightforward. I worked on a majority of 
+the backend coding for the program with designing the inside of the actual 
+game mechanics. My partner Matthew will be working on the UI aspect using 
+pygame. We spent a long time thinking up what to do for the project, 
+without having something that spends too much time. Overall, we got Dr. 
+Emrich's approval in that this idea will not be too daunting, while still 
+meeting all requirements.
