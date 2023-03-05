@@ -1,13 +1,14 @@
 John Kutbay
+Repo: https://github.com/mbianch3/CS302BlackJack
 
 Time Log
 --------
 1 hr: creating project concept
 1 hr: deciphering how and where to make UI
 1 hr: learning relatively advanced python
-1.5 hr: coding Blackjack in python (not finished yet)
+4.5 hr: coding Blackjack in python (not finished yet)
 --------
-4.5 hr total
+7.5 hr total
 
 Rubric
 --------
@@ -23,4 +24,9 @@ game mechanics. My partner Matthew will be working on the UI aspect using
 pygame. We spent a long time thinking up what to do for the project, 
 without having something that spends too much time. Overall, we got Dr. 
 Emrich's approval in that this idea will not be too daunting, while still 
-meeting all requirements.
+meeting all requirements. So far, I have used a previous blackjack game I created.
+I am working on getting it made in python with minor enhancements to further make 
+it easier to read and such. The code I have compiles and runs in c++ with no UI, however, 
+it does what we want for the time. I plan on making aces better in-game as well with a decision 
+system for the user on whether they want to use an ace as a 1 or 11. Overall, 
+we have made a lot of progress, and I think we will finish easily on time.
