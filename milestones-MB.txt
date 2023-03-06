@@ -1,0 +1,32 @@
+Matthew Bianchi
+github repo https://github.com/mbianch3/CS302BlackJack
+List of my pushed code:
+main.py
+milestones-MB.txt
+graphics/
+
+Time Log:
+
+1 hr: Deciding on project concepts
+1.5 hr: Setting up python and pygame environment
+2 hr: Learning and setting up base pygame structure
+.5 hr: Creating an early-stage game background
+
+Rubric:
+
+25pts: Pygame compiles and sucessfully runs basic Blackjack implemenation
+10pts: Created custom graphics to run with Blackjack.exe
+5pts: Time log and summaries are completed and accurate 
+
+Summary:
+
+This challenge went according to plan. After deciding that Jack and I
+were going to be implementing a UI based Blackjack game we decided
+that it would be best to use one of the many python game libraries in
+which we decided pygame would be our best bet. After this we decided that
+I would be in charge of all of the UI based coding while Jack will be in charge
+of the more backend game development side of the project. For this project
+I was able to start setting up a basic pygame environment which compiles a resizable
+screen with a basic background image. This took up most of my time for the project
+but went pretty straightforward for a starting implemenation.
+
