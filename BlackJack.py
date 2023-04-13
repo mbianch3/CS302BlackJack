@@ -1,3 +1,4 @@
+# John Kutbay
 import random
 
 def init():
