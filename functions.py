@@ -13,6 +13,7 @@ def deal(UHand):
     card = random.choice(Tcards)
     Tcards.remove(card)
   
+  # checking cards to add values
   UHand.add_cardF(card)
   if int(card[0]) > 73 or card[0] == '1':
     UHand.add_cardV(10)
@@ -69,7 +70,7 @@ def lastCard(UHand):
 
 
 
-
+"""
 def deal(num, player):
   for i in range(0,num):
     cardN = random.randint(0,9)
@@ -96,3 +97,4 @@ def score(player):
         else:
           scoreVal += 11
   return scoreVal
+"""
