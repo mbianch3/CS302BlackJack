@@ -1,6 +1,8 @@
 # John Kutbay
 import random
 
+test = "Hello"
+
 def init():
     global cards
     cards = []
@@ -11,8 +13,7 @@ def init():
     global cardV
     global cardS
     cardV = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-    cardS = ["D", "S", "C", "H"]
-
+    cardS = ["P", "S", "C", "H"]
     for i in range(0,52):
         cards.append(0)
 
