@@ -185,19 +185,19 @@ class CardDeck:
             card = pygame.transform.scale(card, (120, 175))
             screen.blit(card , (width//2 + 70 ,20))
             
-    def winner(self):
+    def winCheck(self):
         #Deals with win conditions
         if deck.handValue(player) > deck.handValue(dealer) and deck.handValue(player) <= 21:
             print("Player Wins!\n")
-            return True
+            return "Player"
             #playerWin += 1
         elif deck.handValue(player) < deck.handValue(dealer) and deck.handValue(dealer) <= 21:
             print("Dealer Wins!\n")
-            return True
+            return "Dealer"
             #dealerWin += 1
         elif deck.handValue(player) == deck.handValue(dealer):
             print("Push!\n")
-            return True
+            return "Push"
             #tie += 1
 
 
@@ -215,6 +215,7 @@ deck = CardDeck()
 deck.shuffle()
 
 playerTurn = True
+winner = None
 player = []
 dealer = []
 
@@ -239,13 +240,14 @@ while True:
         
         #Player Hit and Standing
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_h and playerTurn == True:
+            if event.key == pygame.K_h and winner == None:
                 print("Player Hit!")
                 player = deck.deal(player)
                 deck.displayPlayerHand(player)
 
                 if deck.handValue(player) > 21:
                     playerTurn = False
+                    winner = "Dealer"
                     print("Player Bust!")
                     
                 print("Player Hand Value: ", deck.handValue(player))
@@ -263,6 +265,7 @@ while True:
                 dealer = []
                 #Used to know if dealer hand should be revealed
                 reveal = False
+                winner = None
                 
                 #Deals starting Hands
                 player = deck.deal(player)
@@ -298,7 +301,8 @@ while True:
         
         #Deals with win cases
         if playerTurn == False and deck.handValue(dealer) >= 17:
-            playerTurn = deck.winner()
+            winner = deck.winCheck()
+            playerTurn = True
             
     
     pygame.display.update()
