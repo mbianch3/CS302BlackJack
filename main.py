@@ -178,26 +178,26 @@ class CardDeck:
             for i in range(len(hand)):
                 card = pygame.image.load(cardsPics(hand[i])).convert()
                 card = pygame.transform.scale(card, (120, 175))
-                screen.blit(card , (width//2 + 70*i ,20*i))
+                screen.blit(card , (width//2-120 + 70*i ,20*i))
         else:
-            pygame.draw.rect(screen, 'white', [width//2, 0, 120, 175])
+            pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
             card = pygame.image.load(cardsPics(hand[1])).convert()
             card = pygame.transform.scale(card, (120, 175))
-            screen.blit(card , (width//2 + 70 ,20))
+            screen.blit(card , (width//2-120 + 70 ,20))
             
     def winCheck(self):
         #Deals with win conditions
         if deck.handValue(player) > deck.handValue(dealer) and deck.handValue(player) <= 21:
-            print("Player Wins!\n")
-            return "Player"
+            #print("Player Wins!\n")
+            return "Player Wins!"
             #playerWin += 1
         elif deck.handValue(player) < deck.handValue(dealer) and deck.handValue(dealer) <= 21:
-            print("Dealer Wins!\n")
-            return "Dealer"
+            #print("Dealer Wins!\n")
+            return "Dealer Wins!"
             #dealerWin += 1
         elif deck.handValue(player) == deck.handValue(dealer):
-            print("Push!\n")
-            return "Push"
+            #print("Push!\n")
+            return "Push!"
             #tie += 1
 
 
@@ -247,7 +247,7 @@ while True:
 
                 if deck.handValue(player) > 21:
                     playerTurn = False
-                    winner = "Dealer"
+                    winner = "Dealer Wins!"
                     print("Player Bust!")
                     
                 print("Player Hand Value: ", deck.handValue(player))
@@ -297,12 +297,20 @@ while True:
             if deck.handValue(dealer) > 21:
                 print("Dealer busts")
                 playerTurn = True
+                winner = "Player Wins!"
             print("Dealer Hand Value: ", deck.handValue(dealer))
         
         #Deals with win cases
-        if playerTurn == False and deck.handValue(dealer) >= 17:
+        if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None:
             winner = deck.winCheck()
             playerTurn = True
+            
+        if winner != None:
+            font = pygame.font.Font('freesansbold.ttf', 32)
+            text = font.render(winner, True, 'black')
+            textRect = text.get_rect()
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 2)
+            screen.blit(text, textRect)
             
     
     pygame.display.update()
