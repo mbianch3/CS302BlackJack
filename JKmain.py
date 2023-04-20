@@ -191,9 +191,12 @@ class CardDeck:
                 card = pygame.transform.scale(card, (120, 175))
                 screen.blit(card , (width//2-120 + 70*i ,20*i))
         else:
-            pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
+            turned_card = pygame.image.load('graphics/cards/cardback.png').convert()
+            #pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
             card = pygame.image.load(cardsPics(hand[1])).convert()
+            turned_card = pygame.transform.scale(turned_card, (120,175))
             card = pygame.transform.scale(card, (120, 175))
+            screen.blit(turned_card, (width//2 - 120, 0))
             screen.blit(card , (width//2-120 + 70 ,20))
             
     def winCheck(self):
@@ -244,8 +247,6 @@ while run == True:
                 break
     pygame.display.flip()
 
-
-
 screen = pygame.display.set_mode((X,Y), HWSURFACE | DOUBLEBUF)
 pygame.display.set_caption('Blackjack')
 clock = pygame.time.Clock()
@@ -261,6 +262,29 @@ playerTurn = True
 winner = None
 player = []
 dealer = []
+
+#Starts game with inital card dealing
+screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+playerTurn = True
+#Used to know if dealer hand should be revealed
+reveal = False
+winner = None
+                
+#Deals starting Hands
+player = deck.deal(player)
+dealer = deck.deal(dealer)
+player = deck.deal(player)
+dealer = deck.deal(dealer)
+print("Dealt Cards")
+#Displays Dealer's Cards
+deck.displayDealerHand(dealer, reveal)
+
+# Shows the player's hand
+deck.displayPlayerHand(player)
+                
+
+print("Player Hand Value: ", deck.handValue(player))
+
 
 while True:
         
@@ -298,33 +322,6 @@ while True:
             if event.key == pygame.K_s and playerTurn == True:
                 print("Player Stand!")
                 playerTurn = False
-            
-            #Starts game with inital card dealing
-            if event.key == pygame.K_d:
-                screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-                playerTurn = True
-                #Uses a list to create the player and dealer's hand arrays
-                player = []
-                dealer = []
-                #Used to know if dealer hand should be revealed
-                reveal = False
-                winner = None
-                
-                #Deals starting Hands
-                player = deck.deal(player)
-                dealer = deck.deal(dealer)
-                player = deck.deal(player)
-                dealer = deck.deal(dealer)
-                print("Dealt Cards")
-                #Displays Dealer's Cards
-                deck.displayDealerHand(dealer, reveal)
-
-                # Shows the player's hand
-                deck.displayPlayerHand(player)
-                
-
-                print("Player Hand Value: ", deck.handValue(player))
-
 
         #Dealer's turn
         if deck.handValue(player) <= 21 and playerTurn == False and deck.handValue(dealer) <= 21:
