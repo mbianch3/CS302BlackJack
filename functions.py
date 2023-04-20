@@ -11,7 +11,7 @@ pygame.init()
 def startWindow():
   global screen
   screen = pygame.display.set_mode((1080,720), HWSURFACE | DOUBLEBUF)
-  background = pygame.image.load('graphics/startscreen.png')
+  background = pygame.image.load('graphics/startscreen2.png')
   background = pygame.transform.scale(background, screen.get_size())
   screen.blit(background, (0,0))
   
