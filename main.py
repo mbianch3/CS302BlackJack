@@ -127,7 +127,7 @@ class Card:
         return f"{faceCards.get(self.value, str(self.value))}{self.suit}"
 
 class CardDeck:
-    def __init__(self, n=13):
+    def __init__(self, n=52):
         self.size = n * 4
         self.deck = [Card((i % 13) + 1, suit) for i in range(n) for suit in ['H', 'D', 'C', 'S']]
     #Shuffles Deck
@@ -162,28 +162,62 @@ class CardDeck:
                 else:
                     handTotal += 11
         return handTotal
-
+    
+            
     def displayPlayerHand(self, hand):
         width = screen.get_width()
         height = screen.get_height()
         for i in range(len(hand)):
-            card = pygame.image.load(cardsPics(hand[i])).convert()
-            card = pygame.transform.scale(card, (120, 180))
-            screen.blit(card , (width//2-120 + 70*i ,height-200 - 20*i))
+            if(i > 1):
+                pygame.time.delay(250)
+                card = pygame.image.load(cardsPics(hand[i])).convert()
+                card = pygame.transform.scale(card, (120, 180))
+                screen.blit(card , (width//2-120 + 30*i ,height-200 - 5*i))
+                pygame.display.update()
             
     def displayDealerHand(self, hand, reveal):
         width = screen.get_width()
-        height = screen.get_height()
         if reveal == True:
             for i in range(len(hand)):
-                card = pygame.image.load(cardsPics(hand[i])).convert()
-                card = pygame.transform.scale(card, (120, 175))
-                screen.blit(card , (width//2-120 + 70*i ,20*i))
-        else:
+                if(i >= (len(hand) - 1) and i > 1):
+                    pygame.time.delay(500)
+                    card = pygame.image.load(cardsPics(hand[i])).convert()
+                    card = pygame.transform.scale(card, (120, 175))
+                    screen.blit(card , (width//2-120 + 30*i ,5*i))
+                    pygame.display.update()
+                elif(len(hand) <= 2):
+                    card = pygame.image.load(cardsPics(hand[i])).convert()
+                    card = pygame.transform.scale(card, (120, 175))
+                    screen.blit(card , (width//2-120 + 30*i ,5*i))
+                    pygame.display.update()
+                
+    def initialDeal(self, player, dealer):
+            width = screen.get_width()
+            height = screen.get_height()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(player[0])).convert()
+            card = pygame.transform.scale(card, (120, 180))
+            screen.blit(card , (width//2-120,height-200))
+            pygame.display.update()
+            
+            pygame.time.delay(250)
             pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
-            card = pygame.image.load(cardsPics(hand[1])).convert()
+            pygame.display.update()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(player[1])).convert()
+            card = pygame.transform.scale(card, (120, 180))
+            screen.blit(card , (width//2-120 + 30 ,height-200 - 5))
+            pygame.display.update()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(dealer[1])).convert()
             card = pygame.transform.scale(card, (120, 175))
-            screen.blit(card , (width//2-120 + 70 ,20))
+            screen.blit(card , (width//2-120 + 30 ,5))
+            pygame.display.update()
+            
+        
             
     def winCheck(self):
         #Deals with win conditions
@@ -252,9 +286,10 @@ while True:
                     
                 print("Player Hand Value: ", deck.handValue(player))
                     
-            if event.key == pygame.K_s and playerTurn == True:
+            if event.key == pygame.K_s and winner == None:
                 print("Player Stand!")
                 playerTurn = False
+                pygame.time.delay(250)
             
             #Starts game with inital card dealing
             if event.key == pygame.K_d:
@@ -274,25 +309,26 @@ while True:
                 dealer = deck.deal(dealer)
                 print("Dealt Cards")
                 #Displays Dealer's Cards
-                deck.displayDealerHand(dealer, reveal)
-
+                deck.initialDeal(player, dealer)
                 # Shows the player's hand
-                deck.displayPlayerHand(player)
                 
 
                 print("Player Hand Value: ", deck.handValue(player))
+                if deck.handValue(player) == 21:
+                    winner = "Player Blackjack!"
+                    playerTurn = False
+                    deck.displayDealerHand(dealer)
+                    
 
 
         #Dealer's turn
-        if deck.handValue(player) <= 21 and playerTurn == False and deck.handValue(dealer) <= 21:
+        if deck.handValue(player) <= 21 and playerTurn == False and winner == None and deck.handValue(dealer) <= 21:
             reveal = True
             #Delays revealing the first card so it isn't instantaneous
-            pygame.time.delay(500)
             deck.displayDealerHand(dealer,reveal)
             pygame.display.update()
             if deck.handValue(dealer) < 17:
                 dealer = deck.deal(dealer)
-                pygame.time.delay(1000)
                 deck.displayDealerHand(dealer,reveal)
             if deck.handValue(dealer) > 21:
                 print("Dealer busts")
