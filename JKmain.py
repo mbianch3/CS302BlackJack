@@ -38,55 +38,22 @@ sbtext = sbfont.render('Start', True, (255,255,255))
 
 pygame.display.flip()
 
-start = True
-game = False
+run = True
 
-while True:
-    if start == True:
-        mouse = pygame.mouse.get_pos()
-        functions.startmouse(mouse, sbwidth, sbheight, sbcolor, sbcolorD, sbcolorL, sbtext)
-
-    if game == True:
-        # setting up and dealing 2 cards each
-        init()
-        users = functions.deal(2,1,users,cards)
-        dealers = functions.deal(2,2,dealers,cards)
-        
-
-
-        pygame.quit()
-        
-        # outputting the users cards and one of the dealers
-
-
-
+while run == True:
+    mouse = pygame.mouse.get_pos()
+    functions.startmouse(mouse, sbwidth, sbheight, sbcolor, sbcolorD, sbcolorL, sbtext)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN and start == True:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             if (X/2)-(sbwidth/2) <= mouse[0] <= (X/2)-(sbwidth/2)+sbwidth and (Y/2)-(sbheight/2) <= mouse[1] <= (Y/2)-(sbheight/2)+sbheight:
-                # change display after clicking button
-                start = False
-                game = True
-                functions.gameWindow()
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-    pygame.display.update()
+                run = False
+                break
     pygame.display.flip()
+
+
+
