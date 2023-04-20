@@ -1,4 +1,4 @@
-cards = ["graphics/cards/clubs/ace_of_clubs.png","graphics/cards/clubs/2_of_clubs.png","graphics/cards/clubs/3_of_clubs.png",
+pngcards = ["graphics/cards/clubs/ace_of_clubs.png","graphics/cards/clubs/2_of_clubs.png","graphics/cards/clubs/3_of_clubs.png",
          "graphics/cards/clubs/4_of_clubs.png","graphics/cards/clubs/5_of_clubs.png","graphics/cards/clubs/6_of_clubs.png",
          "graphics/cards/clubs/7_of_clubs.png","graphics/cards/clubs/8_of_clubs.png","graphics/cards/clubs/9_of_clubs.png",
          "graphics/cards/clubs/10_of_clubs.png","graphics/cards/clubs/jack_of_clubs.png","graphics/cards/clubs/queen_of_clubs.png",
@@ -20,4 +20,4 @@ cards = ["graphics/cards/clubs/ace_of_clubs.png","graphics/cards/clubs/2_of_club
          "graphics/cards/spades/4_of_spades.png","graphics/cards/spades/5_of_spades.png","graphics/cards/spades/6_of_spades.png",
          "graphics/cards/spades/7_of_spades.png","graphics/cards/spades/8_of_spades.png","graphics/cards/spades/9_of_spades.png",
          "graphics/cards/spades/10_of_spades.png","graphics/cards/spades/jack_of_spades.png","graphics/cards/spades/queen_of_spades.png",
-         "graphics/cards/spades/king_of_spades.png",]
+         "graphics/cards/spades/king_of_spades.png"]

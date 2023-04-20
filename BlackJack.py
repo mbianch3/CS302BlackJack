@@ -1,4 +1,5 @@
 # John Kutbay
+
 import random
 
 test = "Hello"

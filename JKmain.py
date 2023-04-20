@@ -1,35 +1,69 @@
-#Matthew Bianchi
+# John Kutbay
 
 import pygame
 from pygame.locals import *
-from pygame import mixer # for music if want
-from sys import exit
-from cards import cards
-import random
+import sys
+import time
+import functions
+from button import Button
 
+def init():
+    global users
+    global dealers
+    global cards
+    users = []
+    dealers = []
+    cards = []
+    cards = functions.initcards(cards)
+    
 
-mixer.pre_init(44100, -16, -2, 2048) # need to look into what this does
 pygame.init()
+clock=pygame.time.Clock()
+X=1080
+Y=720
 
-screen = pygame.display.set_mode((720,480), HWSURFACE | DOUBLEBUF | RESIZABLE)
-pygame.display.set_caption('Blackjack')
-clock = pygame.time.Clock()
+# pygame window:
+functions.startWindow()
 
-background = pygame.image.load('graphics/table.png')
-background = pygame.transform.scale(background, screen.get_size())
-screen.blit(background,(0,0))
+# Intial text:
+functions.displayText('Welcome To Blackjack!', int(X/2), int(Y/5), int(X/20))
 
+# Initial Start Button:
+#def __init__(self,font,color,colorL,colorD,width,height,text)
+startButton = Button(pygame.font.SysFont('arialblack', int(X/16)), (160,160,160), (192,192,192), (128,128,128), 250, 100, pygame.font.SysFont('arialblack', int(X/16)).render('Start', True, (255,255,255)))
+#sbfont = pygame.font.SysFont('arialblack', int(X/16))
+#sbcolor = (160,160,160)
+#sbcolorL = (192,192,192)
+#sbcolorD = (128,128,128)
+#sbwidth = 250
+#sbheight = 100
+#sbtext = sbfont.render('Start', True, (255,255,255))
 
-while True:
+pygame.display.flip()
+
+run = True
+while run == True:
+    mouse = pygame.mouse.get_pos()
+    functions.startmouse(mouse, startButton.width, startButton.height, startButton.color, startButton.colorD, startButton.colorL, startButton.text)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
-        elif event.type == VIDEORESIZE:
-            screen = pygame.display.set_mode(event.dict['size'], HWSURFACE | DOUBLEBUF | RESIZABLE)
-            screen.blit(pygame.transform.scale(background, event.dict['size']), (0, 0))
-            pygame.display.flip()
-            
-            
-    pygame.display.update()
-    clock.tick(60)
+            quit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)-(startButton.width/2)+startButton.width and (Y/2)-(startButton.height/2) <= mouse[1] <= (Y/2)-(startButton.height/2)+startButton.height:
+                run = False
+                break
+    pygame.display.flip()
+
+# while the game is being played
+while True:
+    # start with initial dealings
+    init()
+    users = functions.deal(2,1,users,cards)
+    dealers = functions.deal(2,2,dealers,cards)
+    quit()
+
+
+
