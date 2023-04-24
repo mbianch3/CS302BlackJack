@@ -138,7 +138,7 @@ class Card:
         return f"{faceCards.get(self.value, str(self.value))}{self.suit}"
 
 class CardDeck:
-    def __init__(self, n=13):
+    def __init__(self, n=52):
         self.size = n * 4
         self.deck = [Card((i % 13) + 1, suit) for i in range(n) for suit in ['H', 'D', 'C', 'S']]
     #Shuffles Deck
@@ -173,31 +173,62 @@ class CardDeck:
                 else:
                     handTotal += 11
         return handTotal
-
+    
+            
     def displayPlayerHand(self, hand):
         width = screen.get_width()
         height = screen.get_height()
         for i in range(len(hand)):
-            card = pygame.image.load(cardsPics(hand[i])).convert()
-            card = pygame.transform.scale(card, (120, 180))
-            screen.blit(card , (width//2-120 + 70*i ,height-200 - 20*i))
+            if(i > 1):
+                pygame.time.delay(250)
+                card = pygame.image.load(cardsPics(hand[i])).convert()
+                card = pygame.transform.scale(card, (120, 180))
+                screen.blit(card , (width//2-120 + 30*i ,height-200 - 5*i))
+                pygame.display.update()
             
     def displayDealerHand(self, hand, reveal):
         width = screen.get_width()
-        height = screen.get_height()
         if reveal == True:
             for i in range(len(hand)):
-                card = pygame.image.load(cardsPics(hand[i])).convert()
-                card = pygame.transform.scale(card, (120, 175))
-                screen.blit(card , (width//2-120 + 70*i ,20*i))
-        else:
-            turned_card = pygame.image.load('graphics/cards/cardback.png').convert()
-            #pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
-            card = pygame.image.load(cardsPics(hand[1])).convert()
-            turned_card = pygame.transform.scale(turned_card, (120,175))
+                if(i >= (len(hand) - 1) and i > 1):
+                    pygame.time.delay(500)
+                    card = pygame.image.load(cardsPics(hand[i])).convert()
+                    card = pygame.transform.scale(card, (120, 175))
+                    screen.blit(card , (width//2-120 + 30*i ,5*i))
+                    pygame.display.update()
+                elif(len(hand) <= 2):
+                    card = pygame.image.load(cardsPics(hand[i])).convert()
+                    card = pygame.transform.scale(card, (120, 175))
+                    screen.blit(card , (width//2-120 + 30*i ,5*i))
+                    pygame.display.update()
+                
+    def initialDeal(self, player, dealer):
+            width = screen.get_width()
+            height = screen.get_height()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(player[0])).convert()
+            card = pygame.transform.scale(card, (120, 180))
+            screen.blit(card , (width//2-120,height-200))
+            pygame.display.update()
+            
+            pygame.time.delay(250)
+            pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
+            pygame.display.update()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(player[1])).convert()
+            card = pygame.transform.scale(card, (120, 180))
+            screen.blit(card , (width//2-120 + 30 ,height-200 - 5))
+            pygame.display.update()
+            
+            pygame.time.delay(250)
+            card = pygame.image.load(cardsPics(dealer[1])).convert()
             card = pygame.transform.scale(card, (120, 175))
-            screen.blit(turned_card, (width//2 - 120, 0))
-            screen.blit(card , (width//2-120 + 70 ,20))
+            screen.blit(card , (width//2-120 + 30 ,5))
+            pygame.display.update()
+            
+        
             
     def winCheck(self):
         #Deals with win conditions
@@ -226,9 +257,8 @@ functions.startWindow()
 functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
 
 # Initial Start Button:
-#def __init__(self,font,color,colorL,colorD,width,height,text)
+# def __init__(self,font,color,colorL,colorD,width,height,text)
 startButton = Button(pygame.font.SysFont('arialblack', int(X/16)), (160,160,160), (192,192,192), (128,128,128), 250, 100, pygame.font.SysFont('arialblack', int(X/16)).render('Start', True, (255,255,255)))
-
 pygame.display.flip()
 
 run = True
@@ -247,67 +277,104 @@ while run == True:
                 break
     pygame.display.flip()
 
-screen = pygame.display.set_mode((X,Y), HWSURFACE | DOUBLEBUF)
-pygame.display.set_caption('Blackjack')
-clock = pygame.time.Clock()
-
-background = pygame.image.load('graphics/newtable.png').convert()
-background = pygame.transform.scale(background, screen.get_size())
-screen.blit(background,(0,0))
+tmp = functions.gameWindow()
+screen = tmp[0]
+background = tmp[1]
 
 deck = CardDeck()
 deck.shuffle()
 
 playerTurn = True
 winner = None
+start = True
 player = []
 dealer = []
 
-#Starts game with inital card dealing
-screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-playerTurn = True
-#Used to know if dealer hand should be revealed
-reveal = False
-winner = None
+"""
+    # Starts game with inital card dealing
+    screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+    playerTurn = True
+    # Used to know if dealer hand should be revealed
+    reveal = False
+    winner = None
                 
-#Deals starting Hands
-player = deck.deal(player)
-dealer = deck.deal(dealer)
-player = deck.deal(player)
-dealer = deck.deal(dealer)
-print("Dealt Cards")
-#Displays Dealer's Cards
-deck.displayDealerHand(dealer, reveal)
+    #Deals starting Hands
+    player = deck.deal(player)
+    dealer = deck.deal(dealer)
+    player = deck.deal(player)
+    dealer = deck.deal(dealer)
+    print("Dealt Cards")
+    #Displays Dealer's Cards
+    deck.displayDealerHand(dealer, reveal)
 
-# Shows the player's hand
-deck.displayPlayerHand(player)
+    # Shows the player's hand
+    deck.displayPlayerHand(player)
                 
+    print("Player Hand Value: ", deck.handValue(player))
+"""
 
-print("Player Hand Value: ", deck.handValue(player))
+dealButton = Button(pygame.font.SysFont('arialblack', int(X/16)), (160,160,160), (192,192,192), (128,128,128), 300, 125, pygame.font.SysFont('arialblack', int(X/16)).render('Deal', True, (255,255,255)))
+hitButton = Button(pygame.font.SysFont('arialblack', int(X/16)), (160,160,160), (192,192,192), (128,128,128), 300, 125, pygame.font.SysFont('arialblack', int(X/16)).render('Hit', True, (255,255,255)))
+standButton = Button(pygame.font.SysFont('arialblack', int(X/16)), (160,160,160), (192,192,192), (128,128,128), 300, 125, pygame.font.SysFont('arialblack', int(X/16)).render('Stand', True, (255,255,255)))
 
+pygame.display.flip()
 
 while True:
-        
+    
+    mouse = pygame.mouse.get_pos()
+    if start == True:
+        functions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.color, dealButton.colorD, dealButton.colorL, dealButton.text)
+
+    else:
+        functions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.color, hitButton.colorD, hitButton.colorL, hitButton.text)
+        functions.standmouse(mouse, standButton.width, standButton.height, standButton.color, standButton.colorD, standButton.colorL, standButton.text)
+
     if deck.size < 15:
         print("Deck reset!!!!!")
         del deck
         deck = CardDeck()
         for i in range(random.randint(1, 10)):
             deck.shuffle()
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-            
-        elif event.type == VIDEORESIZE:
-            screen = pygame.display.set_mode(event.dict['size'], HWSURFACE | DOUBLEBUF)
-            screen.blit(pygame.transform.scale(background, event.dict['size']), (0, 0))
-            pygame.display.flip()
         
+        if start == True and event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(dealButton.width/2) <= mouse[0] <= (X/2)-(dealButton.width/2)+dealButton.width and (Y/2)-(dealButton.height/2) <= mouse[1] <= (Y/2)-(dealButton.height/2)+dealButton.height:
+                screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+                playerTurn = True
+                #Uses a list to create the player and dealer's hand arrays
+                player = []
+                dealer = []
+                #Used to know if dealer hand should be revealed
+                reveal = False
+                winner = None
+                
+                #Deals starting Hands
+                player = deck.deal(player)
+                dealer = deck.deal(dealer)
+                player = deck.deal(player)
+                dealer = deck.deal(dealer)
+                print("Dealt Cards")
+                #Displays Dealer's Cards
+                deck.initialDeal(player, dealer)
+                # Shows the player's hand
+                
+
+                print("Player Hand Value: ", deck.handValue(player))
+                if deck.handValue(player) == 21:
+                    winner = "Player Blackjack!"
+                    playerTurn = False
+                    deck.displayDealerHand(dealer)
+                start = False
+
+                pygame.display.flip()
+
         #Player Hit and Standing
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_h and winner == None:
+        if playerTurn == True and event.type == pygame.MOUSEBUTTONDOWN:
+            if winner == None and (X/2)-(3*hitButton.width/2) <= mouse[0] <= (X/2)-(3*hitButton.width/2)+hitButton.width and (Y/2)-(hitButton.height/2) <= mouse[1] <= (Y/2)-(hitButton.height/2)+hitButton.height:
                 print("Player Hit!")
                 player = deck.deal(player)
                 deck.displayPlayerHand(player)
@@ -319,12 +386,12 @@ while True:
                     
                 print("Player Hand Value: ", deck.handValue(player))
                     
-            if event.key == pygame.K_s and playerTurn == True:
+            if playerTurn == True and (X/2)+(standButton.width/2) <= mouse[0] <= (X/2)+(standButton.width/2)+standButton.width and (Y/2)-(standButton.height) <= mouse[1] <= (Y/2):
                 print("Player Stand!")
                 playerTurn = False
 
         #Dealer's turn
-        if deck.handValue(player) <= 21 and playerTurn == False and deck.handValue(dealer) <= 21:
+        if deck.handValue(player) <= 21 and playerTurn == False and winner == None and deck.handValue(dealer) <= 21:
             reveal = True
             #Delays revealing the first card so it isn't instantaneous
             pygame.time.delay(500)
@@ -343,7 +410,7 @@ while True:
         #Deals with win cases
         if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None:
             winner = deck.winCheck()
-            playerTurn = True
+            start = True
             
         if winner != None:
             font = pygame.font.Font('freesansbold.ttf', 32)
@@ -352,9 +419,9 @@ while True:
             textRect.center = (screen.get_width() // 2, screen.get_height() // 2)
             screen.blit(text, textRect)
             
-    
-    pygame.display.update()
-    clock.tick(60)
+    pygame.display.flip()
+    #pygame.display.update()
+    #clock.tick(60)
     
     
 
