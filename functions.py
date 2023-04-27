@@ -15,33 +15,33 @@ def startWindow():
   background = pygame.transform.scale(background, screen.get_size())
   screen.blit(background, (0,0))
   
-def startmouse(mouse, sbwidth, sbheight, sbcolor, sbcolorD, sbcolorL, sbtext):
+def startmouse(mouse, sbwidth, sbheight, sbcolorD, sbcolorL, sbtext):
   if (X/2)-(sbwidth/2) <= mouse[0] <= (X/2)+(sbwidth/2) and (Y/2)-(sbheight/2) <= mouse[1] <= (Y/2)+(sbheight/2):
     pygame.draw.rect(screen, sbcolorL,[(X/2)-(sbwidth/2),(Y/2)-(sbheight/2),sbwidth,sbheight] ,0,7)
   else:
     pygame.draw.rect(screen,sbcolorD,[(X/2)-(sbwidth/2),(Y/2)-(sbheight/2),sbwidth,sbheight],0,7)
   screen.blit(sbtext, (X/2 - sbwidth/2 + 25, Y/2 - sbheight/2))
 
-def dealmouse(mouse, dbwidth, dbheight, dbcolor, dbcolorD, dbcolorL, dbtext):
+def dealmouse(mouse, dbwidth, dbheight, dbcolorD, dbcolorL, dbtext):
   if (X/2)-(dbwidth/2) <= mouse[0] <= (X/2)+(dbwidth/2) and (Y/2)-(dbheight) <= mouse[1] <= (Y/2):
     pygame.draw.rect(screen, dbcolorL,[(X/2)-(dbwidth/2),(Y/2)-(dbheight),dbwidth,dbheight] ,0,7)
   else:
     pygame.draw.rect(screen,dbcolorD,[(X/2)-(dbwidth/2),(Y/2)-(dbheight),dbwidth,dbheight],0,7)
-  screen.blit(dbtext, (X/2 - dbwidth/2 + 30, Y/2 - dbheight))
+  screen.blit(dbtext, (X/2 - dbwidth/2 + 62, Y/2 - dbheight+8))
 
-def hitmouse(mouse, hwidth, hheight, hcolor, hcolorD, hcolorL, htext):
+def hitmouse(mouse, hwidth, hheight, hcolorD, hcolorL, htext):
   if (X/2)-(3*hwidth/2) <= mouse[0] <= (X/2)-(3*hwidth/2)+hwidth and (Y/2)-(hheight) <= mouse[1] <= (Y/2):
     pygame.draw.rect(screen, hcolorL,[(X/2)-(3*hwidth/2),(Y/2)-(hheight),hwidth,hheight] ,0,7)
   else:
     pygame.draw.rect(screen,hcolorD,[(X/2)-(3*hwidth/2),(Y/2)-(hheight),hwidth,hheight],0,7)
-  screen.blit(htext, ((X/2)-3*hwidth/2 + 30, Y/2 - hheight))
+  screen.blit(htext, ((X/2)-3*hwidth/2 + 80, Y/2 - hheight + 10))
 
-def standmouse(mouse, swidth, sheight, scolor, scolorD, scolorL, stext):
+def standmouse(mouse, swidth, sheight, scolorD, scolorL, stext):
   if (X/2)+(swidth/2) <= mouse[0] <= (X/2)+(swidth/2)+swidth and (Y/2)-(sheight) <= mouse[1] <= (Y/2):
     pygame.draw.rect(screen, scolorL,[(X/2)+(swidth/2),(Y/2)-(sheight),swidth,sheight] ,0,7)
   else:
     pygame.draw.rect(screen,scolorD,[(X/2)+(swidth/2),(Y/2)-(sheight),swidth,sheight],0,7)
-  screen.blit(stext, (X/2 + swidth/2 + 30, Y/2 - sheight))
+  screen.blit(stext, (X/2 + swidth/2 + 35, Y/2 - sheight + 10))
 
 def gameWindow():
   screen = pygame.display.set_mode((1080,720), HWSURFACE | DOUBLEBUF)
