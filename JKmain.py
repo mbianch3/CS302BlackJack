@@ -404,7 +404,7 @@ while True:
                 screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
                 
         #Deals with win cases
-        if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None:
+        if playerTurn == False and (deck.handValue(dealer) >= 17 or deck.handValue(dealer) >= deck.handValue(player)) and winner == None:
             winner = deck.winCheck()
             
         if winner != None and start == False:
@@ -423,7 +423,3 @@ while True:
     pygame.display.flip()
     pygame.display.update()
     
-    
-
-
-
