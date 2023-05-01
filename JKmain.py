@@ -8,15 +8,6 @@ import functions
 from button import Button
 import random
 
-def init():
-    global users
-    global dealers
-    global cards
-    users = []
-    dealers = []
-    cards = []
-    cards = functions.initcards(cards)
-
 def cardsPics(cardValue):
     #convert_alphas cardValue to a string for comparison
     cardValue = str(cardValue)
@@ -263,7 +254,7 @@ Y=720
 functions.startWindow()
 
 # Intial text:
-functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
+#functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
 
 # Initial Start Button:
 # def __init__(self,font,color,colorL,colorD,width,height,text)
@@ -282,7 +273,7 @@ while run == True:
             quit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)-(startButton.width/2)+startButton.width and (Y/2)-(startButton.height/2) <= mouse[1] <= (Y/2)-(startButton.height/2)+startButton.height:
+            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)-(startButton.width/2)+startButton.width and (Y/2)+startButton.height <= mouse[1] <= (Y/2)+2*startButton.height:
                 run = False
                 break
     pygame.display.flip()
