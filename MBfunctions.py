@@ -17,10 +17,11 @@ def startWindow():
   
 def startmouse(mouse, sbwidth, sbheight, sbcolorD, sbcolorL, sbtext):
   if (X/2)-(sbwidth/2) <= mouse[0] <= (X/2)+(sbwidth/2) and (Y/2)-(sbheight/2) <= mouse[1] <= (Y/2)+(sbheight/2):
-    pygame.draw.rect(screen, sbcolorL,[(X/2)-(sbwidth/2),(Y/2)-(sbheight/2),sbwidth,sbheight] ,0,7)
+    startButton = pygame.image.load('graphics/buttons/startButtonL.png').convert_alpha()
   else:
-    pygame.draw.rect(screen,sbcolorD,[(X/2)-(sbwidth/2),(Y/2)-(sbheight/2),sbwidth,sbheight],0,7)
-  screen.blit(sbtext, (X/2 - sbwidth/2 + X/43, Y/2 - sbheight/2))
+    startButton = pygame.image.load('graphics/buttons/startButton.png').convert_alpha()
+  startButton = pygame.transform.scale(startButton, (sbwidth, sbheight))
+  screen.blit(startButton, (X/2 - sbwidth/2 + X/43, Y/2 - sbheight/2))
 
 def dealmouse(mouse, dbwidth, dbheight, dbcolorD, dbcolorL, dbtext):
   if (X/2)-(dbwidth/2) <= mouse[0] <= (X/2)+(dbwidth/2) and (Y/2)-(dbheight) <= mouse[1] <= (Y/2):
@@ -61,6 +62,10 @@ def playAgainmouse(mouse, pawidth, paheight, pacolorD, dbcolorL, dbtext):
     playAgainButton = pygame.image.load('graphics/buttons/playAgainButton.png').convert_alpha()
   playAgainButton = pygame.transform.scale(playAgainButton, (pawidth,paheight))
   screen.blit(playAgainButton, (X/2-pawidth/2, Y/2-paheight))
+
+def chipMouse(mouse, val, chip, cwidth, cheight, xpos, ypos):
+  if True:
+    mouse
 
 
 def gameWindow():
