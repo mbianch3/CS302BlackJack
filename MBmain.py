@@ -413,7 +413,6 @@ while True:
                 exit()
         if start == False and playerTurn == False and winner != None and event.type == pygame.MOUSEBUTTONDOWN and gameOver == False:
             if (X/2)-(playAgainButton.width/2) <= mouse[0] <= (X/2)-(playAgainButton.width/2)+playAgainButton.width and (Y/2)-(playAgainButton.height/2) <= mouse[1] <= (Y/2)-(playAgainButton.height/2)+playAgainButton.height:
-                screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
                 start = True
                 winner = None
                 if(bank < 10):
@@ -477,6 +476,7 @@ while True:
                 deck.drawPlayerHand(player)
                 deck.drawDealerHand(dealer)
                 deck.displayPlayerHand(player)
+                deck.displayMoney(bet)
                 pygame.display.update()
 
                 if deck.handValue(player) > 21:
@@ -515,6 +515,7 @@ while True:
             textRect.center = (screen.get_width() // 2, screen.get_height() // 1.75)
             screen.blit(text, textRect)
             bet = 0
+            deck.displayMoney(bet)
             player = []
             dealer = []
 
