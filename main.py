@@ -5,19 +5,11 @@ import pygame
 from pygame.locals import *
 import sys
 import time
-import MBfunctions
+import functions
 from button import Button
 from button import chipButton
 import random
 
-# def init():
-#     global users
-#     global dealers
-#     global cards
-#     users = []
-#     dealers = []
-#     cards = []
-#     cards = MBfunctions.initcards(cards)
 def cardsPics(cardValue):
     #convert_alphas cardValue to a string for comparison
     cardValue = str(cardValue)
@@ -306,12 +298,12 @@ class CardDeck:
     
     def displayMoney(self, bet):
         font = pygame.font.Font('freesansbold.ttf', 32)
-        betText = font.render(f"BET: {bet}", True, 'black')
+        betText = font.render(f"BET: {bet}", True, (212,175,55))
         betTextRect = betText.get_rect()
         betTextRect.center = (screen.get_width() // 5, screen.get_height() // 1.25)
         screen.blit(betText, betTextRect)
         
-        bankText = font.render(f"BANK: {bank}", True, 'black')
+        bankText = font.render(f"BANK: {bank}", True, (212,175,55))
         bankTextRect = bankText.get_rect()
         bankTextRect.center = (screen.get_width() // 5, screen.get_height() // 8)
         screen.blit(bankText, bankTextRect)
@@ -322,10 +314,10 @@ X=1080
 Y=720
 
 # pygame window:
-MBfunctions.startWindow()
+functions.startWindow()
 
 # Intial text:
-MBfunctions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
+functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
 
 # Initial Start Button:
 # def __init__(self,font,color,colorL,colorD,width,height,text)
@@ -339,7 +331,7 @@ bank = 1000
 run = True
 while run == True:
     mouse = pygame.mouse.get_pos()
-    MBfunctions.startmouse(mouse, startButton.width, startButton.height, startButton.colorD, startButton.colorL, startButton.text)
+    functions.startmouse(mouse, startButton.width, startButton.height, startButton.colorD, startButton.colorL, startButton.text)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -352,7 +344,7 @@ while run == True:
                 break
     pygame.display.flip()
 
-tmp = MBfunctions.gameWindow()
+tmp = functions.gameWindow()
 screen = tmp[0]
 background = tmp[1]
 
@@ -383,7 +375,7 @@ while True:
     if gameOver == True:
         screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
         start = False
-        MBfunctions.gameOvermouse(mouse, GameOverButton.width, GameOverButton.height, GameOverButton.colorD, GameOverButton.colorL, GameOverButton.text)  
+        functions.gameOvermouse(mouse, GameOverButton.width, GameOverButton.height, GameOverButton.colorD, GameOverButton.colorL, GameOverButton.text)  
     elif start == True:
         winner = None
         betting = True
@@ -393,13 +385,13 @@ while True:
         deck.displayMoney(bet)
         
         if(bet > 0):
-            MBfunctions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.colorD, dealButton.colorL, dealButton.text)
+            functions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.colorD, dealButton.colorL, dealButton.text)
             playerTurn = True
     elif winner == None and playerTurn == True and start == False:
-        MBfunctions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.colorD, hitButton.colorL, hitButton.text)
-        MBfunctions.standmouse(mouse, standButton.width, standButton.height, standButton.colorD, standButton.colorL, standButton.text)
+        functions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.colorD, hitButton.colorL, hitButton.text)
+        functions.standmouse(mouse, standButton.width, standButton.height, standButton.colorD, standButton.colorL, standButton.text)
     elif winner != None and start == False and playerTurn == False:
-        MBfunctions.playAgainmouse(mouse, playAgainButton.width, playAgainButton.height, playAgainButton.colorD, playAgainButton.colorL, playAgainButton.text)
+        functions.playAgainmouse(mouse, playAgainButton.width, playAgainButton.height, playAgainButton.colorD, playAgainButton.colorL, playAgainButton.text)
 
     if deck.size < 15:
         del deck
