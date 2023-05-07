@@ -4,18 +4,18 @@ import pygame
 from pygame.locals import *
 import sys
 import time
-import functions
+import MBfunctions
 from button import Button
 import random
 
-def init():
-    global users
-    global dealers
-    global cards
-    users = []
-    dealers = []
-    cards = []
-    cards = functions.initcards(cards)
+# def init():
+#     global users
+#     global dealers
+#     global cards
+#     users = []
+#     dealers = []
+#     cards = []
+#     cards = MBfunctions.initcards(cards)
 
 def cardsPics(cardValue):
     #convert_alphas cardValue to a string for comparison
@@ -138,6 +138,7 @@ class Card:
         return f"{faceCards.get(self.value, str(self.value))}{self.suit}"
 
 class CardDeck:
+    
     def __init__(self, n=52):
         self.size = n * 4
         self.deck = [Card((i % 13) + 1, suit) for i in range(n) for suit in ['H', 'D', 'C', 'S']]
@@ -174,17 +175,26 @@ class CardDeck:
                     handTotal += 11
         return handTotal
     
+    def drawScreen(self, player, dealer):
+        width = screen.get_width()
+        height = screen.get_height()
+        for i in range(len(player)):
+            card = pygame.image.load(cardsPics(player[i])).convert_alpha()
+            card = pygame.transform.scale(card, (width*0.10416, height * 0.227777))
+            screen.blit(card , (width//2-90 + 45*(i) ,height-height*0.25555 - 5*(i)))
+        for i in range(len(dealer)):
+            card = pygame.image.load(cardsPics(dealer[i])).convert_alpha()
+            card = pygame.transform.scale(card, (screen.get_width()*0.10416, screen.get_height() * 0.227777))
+            screen.blit(card , (width//2-width*0.0625 + width*0.03125*i ,height*0.021*i))
             
     def displayPlayerHand(self, hand):
         width = screen.get_width()
         height = screen.get_height()
-        for i in range(len(hand)):
-            if(i > 1):
-                pygame.time.delay(250)
-                card = pygame.image.load(cardsPics(hand[i])).convert_alpha()
-                card = pygame.transform.scale(card, (screen.get_width()*0.10416, screen.get_height() * 0.227777))
-                screen.blit(card , (width//2-90 + 45*i ,height-height*0.25555 - 5*i))
-                pygame.display.update()
+        pygame.time.delay(250)
+        card = pygame.image.load(cardsPics(hand[len(hand) - 1])).convert_alpha()
+        card = pygame.transform.scale(card, (screen.get_width()*0.10416, screen.get_height() * 0.227777))
+        screen.blit(card , (width//2-90 + 45*(len(hand) - 1) ,height-height*0.25555 - 5*(len(hand) - 1)))
+        pygame.display.update()
             
     def displayDealerHand(self, hand):
         width = screen.get_width()
@@ -260,10 +270,10 @@ X=1080
 Y=720
 
 # pygame window:
-functions.startWindow()
+MBfunctions.startWindow()
 
 # Intial text:
-functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
+MBfunctions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
 
 # Initial Start Button:
 # def __init__(self,font,color,colorL,colorD,width,height,text)
@@ -271,10 +281,12 @@ startButton = Button(None, (192,192,192), (128,128,128), 250, 100, pygame.font.S
 
 chipSet = ['graphics/chips/green10Chip.png', 'graphics/chips/blue20Chip.png', 'graphics/chips/red50Chip.png', 'graphics/chips/black100Chip.png', 'graphics/chips/grey500Chip.png']
 
+bank = 1000
+
 run = True
 while run == True:
     mouse = pygame.mouse.get_pos()
-    functions.startmouse(mouse, startButton.width, startButton.height, startButton.colorD, startButton.colorL, startButton.text)
+    MBfunctions.startmouse(mouse, startButton.width, startButton.height, startButton.colorD, startButton.colorL, startButton.text)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -287,7 +299,7 @@ while run == True:
                 break
     pygame.display.flip()
 
-tmp = functions.gameWindow()
+tmp = MBfunctions.gameWindow()
 screen = tmp[0]
 background = tmp[1]
 
@@ -297,26 +309,46 @@ deck.shuffle()
 playerTurn = True
 winner = None
 start = True
+gameOver = False
 player = []
 dealer = []
 
+bet = 0
 
 # def __init__(self,font,color,colorL,colorD,width,height,text)
-dealButton = Button(None, (192,192,192), (128,128,128), 150, 75, pygame.font.SysFont('arialblack', int(X/32)).render('Deal', True, (255,255,255)))
-hitButton = Button(None, (192,192,192), (128,128,128), 150, 75, pygame.font.SysFont('arialblack', int(X/32)).render('Hit', True, (255,255,255)))
-standButton = Button(None, (192,192,192), (128,128,128), 150, 75, pygame.font.SysFont('arialblack', int(X/32)).render('Stand', True, (255,255,255)))
+dealButton = Button(None, None, None, 150, 75, None)
+hitButton = Button(None, None, None, 150, 75, None)
+standButton = Button(None, None, None, 150, 75, None)
+GameOverButton = Button(None, None, None, 150, 75, None)
+playAgainButton = Button(None, None, None, 150, 75, None)
 
-deck.drawChips(chipSet)
 pygame.display.flip()
 while True:
-    
+        
     mouse = pygame.mouse.get_pos()
+    if gameOver == True:
+        screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+        start = False
+        MBfunctions.gameOvermouse(mouse, GameOverButton.width, GameOverButton.height, GameOverButton.colorD, GameOverButton.colorL, GameOverButton.text)  
     if start == True:
+        winner = None
+        screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
         deck.drawChips(chipSet)
-        functions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.colorD, dealButton.colorL, dealButton.text)
-    else:
-        functions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.colorD, hitButton.colorL, hitButton.text)
-        functions.standmouse(mouse, standButton.width, standButton.height, standButton.colorD, standButton.colorL, standButton.text)
+        if(bet == 0):
+            print(bank, " ")
+            bet = int(input("Enter Bet: $"))
+            if(bet > bank):
+                print("You do not have enough money")
+                bet = 0
+            bank = bank - bet
+        elif(bet > 0):
+            MBfunctions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.colorD, dealButton.colorL, dealButton.text)
+            playerTurn = True
+    elif winner == None and playerTurn == True and start == False:
+        MBfunctions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.colorD, hitButton.colorL, hitButton.text)
+        MBfunctions.standmouse(mouse, standButton.width, standButton.height, standButton.colorD, standButton.colorL, standButton.text)
+    elif winner != None and start == False and playerTurn == False:
+        MBfunctions.playAgainmouse(mouse, playAgainButton.width, playAgainButton.height, playAgainButton.colorD, playAgainButton.colorL, playAgainButton.text)
 
     if deck.size < 15:
         print("Deck reset!!!!!")
@@ -326,19 +358,28 @@ while True:
             deck.shuffle()
 
     for event in pygame.event.get():
+        if gameOver == True and event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(GameOverButton.width/2) <= mouse[0] <= (X/2)-(GameOverButton.width/2)+GameOverButton.width and (Y/2)-(GameOverButton.height/2) <= mouse[1] <= (Y/2)-(GameOverButton.height/2)+GameOverButton.height:
+                pygame.quit()
+                exit()
+        if start == False and playerTurn == False and winner != None and event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(playAgainButton.width/2) <= mouse[0] <= (X/2)-(playAgainButton.width/2)+playAgainButton.width and (Y/2)-(playAgainButton.height/2) <= mouse[1] <= (Y/2)-(playAgainButton.height/2)+playAgainButton.height:
+                screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+                start = True
+                winner = None
+                if(bank == 0):
+                    gameOver = True
+            
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
         
-        if start == True and event.type == pygame.MOUSEBUTTONDOWN:
+        if playerTurn == True and winner == None and event.type == pygame.MOUSEBUTTONDOWN:
             if (X/2)-(dealButton.width/2) <= mouse[0] <= (X/2)-(dealButton.width/2)+dealButton.width and (Y/2)-(dealButton.height/2) <= mouse[1] <= (Y/2)-(dealButton.height/2)+dealButton.height:
                 screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-                deck.drawChips(chipSet)
-                playerTurn = True
                 #Uses a list to create the player and dealer's hand arrays
                 player = []
                 dealer = []
-                winner = None
                 
                 #Deals starting Hands
                 player = deck.deal(player)
@@ -349,7 +390,6 @@ while True:
 
                 deck.initialDeal(player, dealer)
                 
-
                 print("Player Hand Value: ", deck.handValue(player))
                 if deck.handValue(player) == 21:
                     winner = "Player Blackjack!"
@@ -357,14 +397,15 @@ while True:
                     deck.displayDealerHand(dealer)
                     screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
                     pygame.time.delay(500)
+                    bank += 2.5*bet
                 start = False
                 pygame.time.delay(300)
 
                 pygame.display.flip()
 
         #Player Hit and Standing
-        if playerTurn == True and event.type == pygame.MOUSEBUTTONDOWN:
-            if winner == None and (X/2)-(3*hitButton.width/2) <= mouse[0] <= (X/2)-(3*hitButton.width/2)+hitButton.width and (Y/2)-(hitButton.height) <= mouse[1] <= (Y/2):
+        if playerTurn == True and event.type == pygame.MOUSEBUTTONDOWN and winner == None:
+            if ((X/2)-(3*hitButton.width/2) - 100) <= mouse[0] <= ((X/2)-(3*hitButton.width/2) - 100 + hitButton.width) and (Y/2)-(hitButton.height) <= mouse[1] <= (Y/2):
                 print("Player Hit!")
                 player = deck.deal(player)
                 deck.displayPlayerHand(player)
@@ -375,13 +416,10 @@ while True:
                     playerTurn = False
                     winner = "Dealer Wins!"
                     screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-                elif deck.handValue(player) == 21:
-                    playerTurn = False
-                    winner = "Player Wins!"
-                    screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
                     
                     
-            if playerTurn == True and (X/2)+(standButton.width/2) <= mouse[0] <= (X/2)+(standButton.width/2)+standButton.width and (Y/2)-(standButton.height) <= mouse[1] <= (Y/2):
+                    
+            if playerTurn == True and (X/2)+(standButton.width/2) + 100 <= mouse[0] <= (X/2)+(standButton.width/2)+standButton.width + 100 and (Y/2)-(standButton.height) <= mouse[1] <= (Y/2):
                 print("Player Stand!")
                 playerTurn = False
 
@@ -394,12 +432,10 @@ while True:
             print("Dealer Hand Value: ", deck.handValue(dealer))
             if deck.handValue(dealer) < 17:
                 dealer = deck.deal(dealer)
-                pygame.time.delay(300)
                 deck.displayDealerHand(dealer)
                 print("Dealer Hand Value: ", deck.handValue(dealer))
             if deck.handValue(dealer) > 21:
                 print("Dealer busts")
-                playerTurn = True
                 winner = "Player Wins!"
                 screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
                 
@@ -407,17 +443,20 @@ while True:
         if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None:
             winner = deck.winCheck()
             
-        if winner != None and start == False:
+        if winner != None and start == False and bet != 0:
+            screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+            if winner == "Player Wins!":
+                bank += 2*bet
+            if winner == "Push!":
+                bank += bet
+            pygame.time.delay(300)
             font = pygame.font.Font('freesansbold.ttf', 32)
             text = font.render(winner, True, 'black')
+            deck.drawScreen(player, dealer)
             textRect = text.get_rect()
-            textRect.center = (screen.get_width() // 2, screen.get_height() // 2)
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 1.5)
             screen.blit(text, textRect)
-            
-            screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-            print(winner)
-            pygame.time.delay(750)
-            start = True
+            bet = 0
 
             
     pygame.display.flip()
