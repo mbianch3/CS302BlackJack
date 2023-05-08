@@ -46,7 +46,7 @@ while run == True:
             quit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)-(startButton.width/2)+startButton.width and (Y/2)-(startButton.height/2) <= mouse[1] <= (Y/2)-(startButton.height/2)+startButton.height:
+            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)+(startButton.width/2) and (Y/2)-(startButton.height) <= mouse[1] <= (Y/2):
                 run = False
                 break
     pygame.display.flip()
@@ -66,6 +66,7 @@ betting = True
 player = []
 dealer = []
 
+
 bet = 0
 
 # def __init__(self,font,color,imageL,image,width,height,text)
@@ -77,11 +78,7 @@ playAgainButton = Button(150, 75, 'graphics/buttons/playAgainButton.png', 'graph
 clearBetButton = Button(125, 50, 'graphics/buttons/clearBetButton.png', 'graphics/buttons/clearBetButtonL.png')
 
 pygame.display.flip()
-while True:
-    #pos = pygame.mouse.get_pos()
-    
-    #print(pos)
-    
+while True:   
     mouse = pygame.mouse.get_pos()
     if gameOver == True:
         screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
@@ -96,7 +93,7 @@ while True:
         betting = True
         screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
         chipButtons = deck.drawChips(chipSet, bank)
-         
+        #This for loop lags the screen maybe try and find someway to make it faster
         for i in range(len(chipButtons)):
             functions.chipMouse(mouse, chipButtons[i].value, chipButtons[i].image, chipButtons[i].imageL, chipButtons[i].width, chipButtons[i].height, chipButtons[i].xpos, chipButtons[i].ypos)
             
@@ -161,7 +158,6 @@ while True:
                 dealer = deck.deal(dealer)
                 player = deck.deal(player)
                 dealer = deck.deal(dealer)
-                #print(len(dealer))
                 deck.initialDeal(player, dealer)
                 
                 deck.drawPlayerValue(deck.handValue(player))
@@ -209,10 +205,9 @@ while True:
                 
             if deck.handValue(dealer) < 17:
                 dealer = deck.deal(dealer)
-                #print(len(dealer))
                 pygame.time.delay(500)
                 deck.displayDealerHand(dealer)
-            elif deck.handValue(dealer) > 21:
+            if deck.handValue(dealer) > 21:
                 winner = "Player Wins!"
                 
         #Deals with win cases

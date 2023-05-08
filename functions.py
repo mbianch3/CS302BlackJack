@@ -14,13 +14,13 @@ def startWindow():
   background = pygame.transform.scale(background, screen.get_size())
   screen.blit(background, (0,0))
   
-def startmouse(mouse, sbwidth, sbheight, stimage, stimageL):
-  if (X/2)-(sbwidth/2) <= mouse[0] <= (X/2)+(sbwidth/2) and (Y/2)-(sbheight/2) <= mouse[1] <= (Y/2)+(sbheight/2):
-    startButton = pygame.image.load(stimageL).convert_alpha()
+def startmouse(mouse, sbwidth, sbheight, sbImage, sbImageL):
+  if (X/2)-(sbwidth/2) <= mouse[0] <= (X/2)+(sbwidth/2) and (Y/2)-(sbheight) <= mouse[1] <= (Y/2):
+    startButton = pygame.image.load(sbImageL).convert_alpha()
   else:
-    startButton = pygame.image.load(stimage).convert_alpha()
+    startButton = pygame.image.load(sbImage).convert_alpha()
   startButton = pygame.transform.scale(startButton, (sbwidth, sbheight))
-  screen.blit(startButton, (X/2 - sbwidth/2 + X/43, Y/2 - sbheight/2))
+  screen.blit(startButton, (X/2-sbwidth/2, Y/2-sbheight))
 
 def dealmouse(mouse, dbwidth, dbheight, dbImage, dbImageL):
   if (X/2)-(dbwidth/2) <= mouse[0] <= (X/2)+(dbwidth/2) and (Y/2)-(dbheight) <= mouse[1] <= (Y/2):
