@@ -10,6 +10,7 @@ def startWindow():
   global screen
   screen = pygame.display.set_mode((1080,720), HWSURFACE | DOUBLEBUF)
   background = pygame.image.load('graphics/startscreen.png')
+  background = pygame.image.load('graphics/startscreen.png')
   background = pygame.transform.scale(background, screen.get_size())
   screen.blit(background, (0,0))
   
@@ -89,7 +90,7 @@ def gameWindow():
 
 def displayText(text, x, y, size):
   Font = pygame.font.SysFont('arialblack', size)
-  Text = Font.render(text, True, (255,255,255))
+  Text = Font.render(text, True, 'black')
   TextRect = Text.get_rect()
   TextRect.center = (x,y)
   screen.blit(Text,TextRect)
