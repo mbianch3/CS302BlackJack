@@ -1,353 +1,244 @@
-#Matthew Bianchi
+# Matthew Bianchi
+
 import pygame
-import random
-
-
 from pygame.locals import *
-from sys import exit
-#Deals with assigning card pictures
-def cardsPics(cardValue):
-    #Converts cardValue to a string for comparison
-    cardValue = str(cardValue)
-    if cardValue == '2D':
-        return 'graphics/cards/diamonds/2_of_diamonds.png'
-    if cardValue == '3D':
-        return 'graphics/cards/diamonds/3_of_diamonds.png'
-    if cardValue == '4D':
-        return 'graphics/cards/diamonds/4_of_diamonds.png'
-    if cardValue == '5D':
-        return 'graphics/cards/diamonds/5_of_diamonds.png'
-    if cardValue == '6D':
-        return 'graphics/cards/diamonds/6_of_diamonds.png'
-    if cardValue == '7D':
-        return 'graphics/cards/diamonds/7_of_diamonds.png'
-    if cardValue == '8D':
-        return 'graphics/cards/diamonds/8_of_diamonds.png'
-    if cardValue == '9D':
-        return 'graphics/cards/diamonds/9_of_diamonds.png'
-    if cardValue == '10D':
-        return 'graphics/cards/diamonds/10_of_diamonds.png'
-    if cardValue == 'JD':
-        return 'graphics/cards/diamonds/jack_of_diamonds.png'
-    if cardValue == 'QD':
-        return 'graphics/cards/diamonds/queen_of_diamonds.png'
-    if cardValue == 'KD':
-        return 'graphics/cards/diamonds/king_of_diamonds.png'
-    if cardValue == 'AD':
-        return 'graphics/cards/diamonds/ace_of_diamonds.png'
-    #Clubs
-    if cardValue == '2C':
-        return 'graphics/cards/clubs/2_of_clubs.png'
-    if cardValue == '3C':
-        return 'graphics/cards/clubs/3_of_clubs.png'
-    if cardValue == '4C':
-        return 'graphics/cards/clubs/4_of_clubs.png'
-    if cardValue == '5C':
-        return 'graphics/cards/clubs/5_of_clubs.png'
-    if cardValue == '6C':
-        return 'graphics/cards/clubs/6_of_clubs.png'
-    if cardValue == '7C':
-        return 'graphics/cards/clubs/7_of_clubs.png'
-    if cardValue == '8C':
-        return 'graphics/cards/clubs/8_of_clubs.png'
-    if cardValue == '9C':
-        return 'graphics/cards/clubs/9_of_clubs.png'
-    if cardValue == '10C':
-        return 'graphics/cards/clubs/10_of_clubs.png'
-    if cardValue == 'JC':
-        return 'graphics/cards/clubs/jack_of_clubs.png'
-    if cardValue == 'QC':
-        return 'graphics/cards/clubs/queen_of_clubs.png'
-    if cardValue == 'KC':
-        return 'graphics/cards/clubs/king_of_clubs.png'
-    if cardValue == 'AC':
-        return 'graphics/cards/clubs/ace_of_clubs.png'
-    #Spades
-    if cardValue == '2S':
-        return 'graphics/cards/spades/2_of_spades.png'
-    if cardValue == '3S':
-        return 'graphics/cards/spades/3_of_spades.png'
-    if cardValue == '4S':
-        return 'graphics/cards/spades/4_of_spades.png'
-    if cardValue == '5S':
-        return 'graphics/cards/spades/5_of_spades.png'
-    if cardValue == '6S':
-        return 'graphics/cards/spades/6_of_spades.png'
-    if cardValue == '7S':
-        return 'graphics/cards/spades/7_of_spades.png'
-    if cardValue == '8S':
-        return 'graphics/cards/spades/8_of_spades.png'
-    if cardValue == '9S':
-        return 'graphics/cards/spades/9_of_spades.png'
-    if cardValue == '10S':
-        return 'graphics/cards/spades/10_of_spades.png'
-    if cardValue == 'JS':
-        return 'graphics/cards/spades/jack_of_spades.png'
-    if cardValue == 'QS':
-        return 'graphics/cards/spades/queen_of_spades.png'
-    if cardValue == 'KS':
-        return 'graphics/cards/spades/king_of_spades.png'
-    if cardValue == 'AS':
-        return 'graphics/cards/spades/ace_of_spades.png'
-    #Hearts
-    if cardValue == '2H':
-        return 'graphics/cards/hearts/2_of_hearts.png'
-    if cardValue == '3H':
-        return 'graphics/cards/hearts/3_of_hearts.png'
-    if cardValue == '4H':
-        return 'graphics/cards/hearts/4_of_hearts.png'
-    if cardValue == '5H':
-        return 'graphics/cards/hearts/5_of_hearts.png'
-    if cardValue == '6H':
-        return 'graphics/cards/hearts/6_of_hearts.png'
-    if cardValue == '7H':
-        return 'graphics/cards/hearts/7_of_hearts.png'
-    if cardValue == '8H':
-        return 'graphics/cards/hearts/8_of_hearts.png'
-    if cardValue == '9H':
-        return 'graphics/cards/hearts/9_of_hearts.png'
-    if cardValue == '10H':
-        return 'graphics/cards/hearts/10_of_hearts.png'
-    if cardValue == 'JH':
-        return 'graphics/cards/hearts/jack_of_hearts.png'
-    if cardValue == 'QH':
-        return 'graphics/cards/hearts/queen_of_hearts.png'
-    if cardValue == 'KH':
-        return 'graphics/cards/hearts/king_of_hearts.png'
-    if cardValue == 'AH':
-        return 'graphics/cards/hearts/ace_of_hearts.png'
-    
-class Card:
-    def __init__(self, value, suit):
-        self.value = value
-        self.suit = suit
-
-    def __repr__(self):
-        faceCards = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}
-        return f"{faceCards.get(self.value, str(self.value))}{self.suit}"
-
-class CardDeck:
-    def __init__(self, n=52):
-        self.size = n * 4
-        self.deck = [Card((i % 13) + 1, suit) for i in range(n) for suit in ['H', 'D', 'C', 'S']]
-    #Shuffles Deck
-    def shuffle(self):
-        random.shuffle(self.deck)
-        
-    #Prints deck to console
-    def display(self):
-        print(*self.deck)
-        
-    #Deals cards
-    
-    def deal(self, hand):
-        new_hand = hand + [self.deck[0]]
-        self.deck.pop(0)
-        self.size += -1
-        return new_hand
-
-    def handValue(self, hand):
-        handTotal = 0
-        #Calculates Values for 2 through K
-        for card in hand:
-            if card.value > 9:
-                handTotal += 10
-            elif card.value > 1:
-                handTotal += card.value
-        #Deals with Ace Values
-        for card in hand:
-            if card.value == 1:
-                if handTotal + 11 > 21:
-                    handTotal += 1
-                else:
-                    handTotal += 11
-        return handTotal
-    
-            
-    def displayPlayerHand(self, hand):
-        width = screen.get_width()
-        height = screen.get_height()
-        for i in range(len(hand)):
-            if(i > 1):
-                pygame.time.delay(250)
-                card = pygame.image.load(cardsPics(hand[i])).convert()
-                card = pygame.transform.scale(card, (120, 180))
-                screen.blit(card , (width//2-120 + 30*i ,height-200 - 5*i))
-                pygame.display.update()
-            
-    def displayDealerHand(self, hand, reveal):
-        width = screen.get_width()
-        if reveal == True:
-            for i in range(len(hand)):
-                if(i >= (len(hand) - 1) and i > 1):
-                    pygame.time.delay(500)
-                    card = pygame.image.load(cardsPics(hand[i])).convert()
-                    card = pygame.transform.scale(card, (120, 175))
-                    screen.blit(card , (width//2-120 + 30*i ,5*i))
-                    pygame.display.update()
-                elif(len(hand) <= 2):
-                    card = pygame.image.load(cardsPics(hand[i])).convert()
-                    card = pygame.transform.scale(card, (120, 175))
-                    screen.blit(card , (width//2-120 + 30*i ,5*i))
-                    pygame.display.update()
-                
-    def initialDeal(self, player, dealer):
-            width = screen.get_width()
-            height = screen.get_height()
-            
-            pygame.time.delay(250)
-            card = pygame.image.load(cardsPics(player[0])).convert()
-            card = pygame.transform.scale(card, (120, 180))
-            screen.blit(card , (width//2-120,height-200))
-            pygame.display.update()
-            
-            pygame.time.delay(250)
-            pygame.draw.rect(screen, 'white', [width//2-120, 0, 120, 175])
-            pygame.display.update()
-            
-            pygame.time.delay(250)
-            card = pygame.image.load(cardsPics(player[1])).convert()
-            card = pygame.transform.scale(card, (120, 180))
-            screen.blit(card , (width//2-120 + 30 ,height-200 - 5))
-            pygame.display.update()
-            
-            pygame.time.delay(250)
-            card = pygame.image.load(cardsPics(dealer[1])).convert()
-            card = pygame.transform.scale(card, (120, 175))
-            screen.blit(card , (width//2-120 + 30 ,5))
-            pygame.display.update()
-            
-        
-            
-    def winCheck(self):
-        #Deals with win conditions
-        if deck.handValue(player) > deck.handValue(dealer) and deck.handValue(player) <= 21:
-            #print("Player Wins!\n")
-            return "Player Wins!"
-            #playerWin += 1
-        elif deck.handValue(player) < deck.handValue(dealer) and deck.handValue(dealer) <= 21:
-            #print("Dealer Wins!\n")
-            return "Dealer Wins!"
-            #dealerWin += 1
-        elif deck.handValue(player) == deck.handValue(dealer):
-            #print("Push!\n")
-            return "Push!"
-            #tie += 1
-
+import functions
+from button import Button
+import random
+import cardDeck
 
 pygame.init()
+clock=pygame.time.Clock()
+clock.tick(60)
+X=1080
+Y=720
 
-screen = pygame.display.set_mode((720,480), HWSURFACE | DOUBLEBUF | RESIZABLE)
-pygame.display.set_caption('Blackjack')
-clock = pygame.time.Clock()
+# pygame window:
+functions.startWindow()
 
-background = pygame.image.load('graphics/SolidBackground.png').convert()
-background = pygame.transform.scale(background, screen.get_size())
-screen.blit(background,(0,0))
+# Intial text:
+functions.displayText('Blackjack', int(X/2), int(Y/5), int(X/10))
 
-deck = CardDeck()
+# Initial Start Button:
+# def __init__(self,font,color,imageL,image,width,height,text)
+startButton = Button(250, 100, 'graphics/buttons/startButton.png', 'graphics/buttons/startButtonL.png')
+
+#chipSet Map/Dict for printing chip buttons
+chipSet = {10 : ['graphics/chips/green10Chip.png', 'graphics/chips/green10ChipL.png'], 
+           20 : ['graphics/chips/blue20Chip.png','graphics/chips/blue20ChipL.png'], 
+           50 : ['graphics/chips/red50Chip.png', 'graphics/chips/red50ChipL.png'], 
+           100 : ['graphics/chips/black100Chip.png','graphics/chips/black100ChipL.png'], 
+           500 : ['graphics/chips/grey500Chip.png', 'graphics/chips/grey500ChipL.png']}
+
+#Starting bank value
+bank = 1000
+
+
+run = True
+while run == True:
+    mouse = pygame.mouse.get_pos()
+    functions.startmouse(mouse, startButton.width, startButton.height, startButton.image, startButton.imageL)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(startButton.width/2) <= mouse[0] <= (X/2)-(startButton.width/2)+startButton.width and (Y/2)-(startButton.height/2) <= mouse[1] <= (Y/2)-(startButton.height/2)+startButton.height:
+                run = False
+                break
+    pygame.display.flip()
+
+tmp = functions.gameWindow()
+screen = tmp[0]
+background = tmp[1]
+
+deck = cardDeck.CardDeck(screen)
 deck.shuffle()
 
 playerTurn = True
 winner = None
+start = True
+gameOver = False
+betting = True
 player = []
 dealer = []
 
+bet = 0
+
+# def __init__(self,font,color,imageL,image,width,height,text)
+dealButton = Button(150, 75, 'graphics/buttons/dealButton.png', 'graphics/buttons/dealButtonL.png')
+hitButton = Button(150, 75, 'graphics/buttons/hitButton.png', 'graphics/buttons/hitButtonL.png')
+standButton = Button(150, 75, 'graphics/buttons/standButton.png', 'graphics/buttons/standButtonL.png')
+GameOverButton = Button(150, 75, 'graphics/buttons/gameOverButton.png', 'graphics/buttons/gameOverButtonL.png')
+playAgainButton = Button(150, 75, 'graphics/buttons/playAgainButton.png', 'graphics/buttons/playAgainButtonL.png')
+clearBetButton = Button(125, 50, 'graphics/buttons/clearBetButton.png', 'graphics/buttons/clearBetButtonL.png')
+
+pygame.display.flip()
 while True:
-        
+    #pos = pygame.mouse.get_pos()
+    
+    #print(pos)
+    
+    mouse = pygame.mouse.get_pos()
+    if gameOver == True:
+        screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+        start = False
+        gameOverText = font.render("Out of Money!", True, 'black')
+        gameOverRect = gameOverText.get_rect()
+        gameOverRect.center = (screen.get_width() // 2, screen.get_height() // 3)
+        screen.blit(gameOverText, gameOverRect)
+        functions.gameOvermouse(mouse, GameOverButton.width, GameOverButton.height, GameOverButton.image, GameOverButton.imageL)  
+    elif start == True:
+        winner = None
+        betting = True
+        screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+        chipButtons = deck.drawChips(chipSet, bank)
+         
+        for i in range(len(chipButtons)):
+            functions.chipMouse(mouse, chipButtons[i].value, chipButtons[i].image, chipButtons[i].imageL, chipButtons[i].width, chipButtons[i].height, chipButtons[i].xpos, chipButtons[i].ypos)
+            
+        deck.displayMoney(bet, bank)
+        if(bet > 0):
+            functions.clearBetmouse(mouse, clearBetButton.width, clearBetButton.height, clearBetButton.image, clearBetButton.imageL)
+            functions.dealmouse(mouse, dealButton.width, dealButton.height, dealButton.image, dealButton.imageL)
+            playerTurn = True
+    elif winner == None and playerTurn == True and start == False:
+        functions.hitmouse(mouse, hitButton.width, hitButton.height, hitButton.image, hitButton.imageL)
+        functions.standmouse(mouse, standButton.width, standButton.height, standButton.image, standButton.imageL)
+    elif winner != None and start == False and playerTurn == False:
+        functions.playAgainmouse(mouse, playAgainButton.width, playAgainButton.height, playAgainButton.image, playAgainButton.imageL)
+
     if deck.size < 15:
-        print("Deck reset!!!!!")
         del deck
-        deck = CardDeck()
+        deck = cardDeck.CardDeck(screen)
         for i in range(random.randint(1, 10)):
             deck.shuffle()
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
-            
-        elif event.type == VIDEORESIZE:
-            screen = pygame.display.set_mode(event.dict['size'], HWSURFACE | DOUBLEBUF | RESIZABLE)
-            screen.blit(pygame.transform.scale(background, event.dict['size']), (0, 0))
-            pygame.display.flip()
-        
-        #Player Hit and Standing
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_h and winner == None:
-                print("Player Hit!")
-                player = deck.deal(player)
-                deck.displayPlayerHand(player)
 
-                if deck.handValue(player) > 21:
-                    playerTurn = False
-                    winner = "Dealer Wins!"
-                    print("Player Bust!")
-                    
-                print("Player Hand Value: ", deck.handValue(player))
-                    
-            if event.key == pygame.K_s and winner == None:
-                print("Player Stand!")
-                playerTurn = False
-                pygame.time.delay(250)
-            
-            #Starts game with inital card dealing
-            if event.key == pygame.K_d:
+    for event in pygame.event.get():
+        if gameOver == True and event.type == pygame.MOUSEBUTTONDOWN:
+            if (X/2)-(GameOverButton.width/2) <= mouse[0] <= (X/2)+(GameOverButton.width/2) and (Y/2)-(GameOverButton.height) <= mouse[1] <= (Y/2):
+                pygame.quit()
+                exit()
+        if start == False and playerTurn == False and winner != None and event.type == pygame.MOUSEBUTTONDOWN and gameOver == False:
+            if (X/2)-(playAgainButton.width/2) <= mouse[0] <= (X/2)+(playAgainButton.width/2) and (Y/2)-(playAgainButton.height) <= mouse[1] <= (Y/2):
+                start = True
+                winner = None
+                if(bank < 10):
+                    gameOver = True
+        if betting == True and event.type == pygame.MOUSEBUTTONDOWN and gameOver == False:
+            if 5 <= mouse[0] <= 90 and 610 <= mouse[1] <= 695 and bank - 10 >= 0:
+                bank = bank - 10
+                bet += 10
+            if 95 <= mouse[0] <= 185 and 610 <= mouse[1] <= 695 and bank - 20 >= 0:
+                bank = bank - 20
+                bet += 20
+            if 190 <= mouse[0] <= 280 and 610 <= mouse[1] <= 695 and bank - 50 >= 0:
+                bank = bank - 50
+                bet += 50
+            if 285 <= mouse[0] <= 375 and 610 <= mouse[1] <= 695 and bank - 100 >= 0:
+                bank = bank - 100
+                bet += 100
+            if 380 <= mouse[0] <= 470 and 610 <= mouse[1] <= 695 and bank - 500 >= 0:
+                bank = bank - 500
+                bet += 500
+        if playerTurn == True and winner == None and event.type == pygame.MOUSEBUTTONDOWN and start == True and gameOver == False:
+            if (X/14)-clearBetButton.width/2 <= mouse[0] <= (X/14)+(clearBetButton.width/2) and (Y/1.2)-(clearBetButton.height) <= mouse[1] <= (Y/1.2):
+                bank = bank + bet
+                bet = 0
+            if (X/2)-(dealButton.width/2) <= mouse[0] <= (X/2)+(dealButton.width/2) and (Y/2)-(dealButton.height) <= mouse[1] <= Y/2:
                 screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
-                playerTurn = True
+                betting = False
+                start = False
                 #Uses a list to create the player and dealer's hand arrays
                 player = []
                 dealer = []
-                #Used to know if dealer hand should be revealed
-                reveal = False
-                winner = None
-                
+                deck.displayMoney(bet, bank)
                 #Deals starting Hands
                 player = deck.deal(player)
                 dealer = deck.deal(dealer)
                 player = deck.deal(player)
                 dealer = deck.deal(dealer)
-                print("Dealt Cards")
-                #Displays Dealer's Cards
+                #print(len(dealer))
                 deck.initialDeal(player, dealer)
-                # Shows the player's hand
                 
-
-                print("Player Hand Value: ", deck.handValue(player))
+                deck.drawPlayerValue(deck.handValue(player))
+                
                 if deck.handValue(player) == 21:
-                    winner = "Player Blackjack!"
+                    if deck.handValue(dealer) == 21:
+                        winner = "Push!"
+                    else:
+                        winner = "Player Blackjack!"
+                        bank += int(2.5*bet)
                     playerTurn = False
+                    pygame.time.delay(300)
                     deck.displayDealerHand(dealer)
-                    
+                pygame.time.delay(300)
+                pygame.display.flip()
+                
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
 
+        #Player Hit and Standing
+        if playerTurn == True and event.type == pygame.MOUSEBUTTONDOWN and winner == None and gameOver == False and betting == False:
+            if ((X/2)-(3*hitButton.width/2) - 100) <= mouse[0] <= ((X/2)-(3*hitButton.width/2) - 100 + hitButton.width) and (Y/2)-(hitButton.height) <= mouse[1] <= (Y/2):
+                player = deck.deal(player)
+                screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+                deck.drawPlayerHand(player)
+                deck.drawDealerHand(dealer)
+                deck.displayPlayerHand(player)
+                deck.displayMoney(bet, bank)
+                pygame.display.update()
+
+                if deck.handValue(player) > 21:
+                    playerTurn = False
+                    winner = "Dealer Wins!"
+                    
+            if playerTurn == True and (X/2)+(standButton.width/2) + 100 <= mouse[0] <= (X/2)+(standButton.width/2)+standButton.width + 100 and (Y/2)-(standButton.height) <= mouse[1] <= (Y/2):
+                playerTurn = False
 
         #Dealer's turn
-        if deck.handValue(player) <= 21 and playerTurn == False and winner == None and deck.handValue(dealer) <= 21:
-            reveal = True
+        if deck.handValue(player) <= 21 and playerTurn == False and winner == None and betting == False and start == False and gameOver == False and deck.handValue(dealer) <= 21:
             #Delays revealing the first card so it isn't instantaneous
-            deck.displayDealerHand(dealer,reveal)
-            pygame.display.update()
+            if(len(dealer) <= 2):
+                pygame.time.delay(300)
+                deck.displayDealerHand(dealer)
+                
             if deck.handValue(dealer) < 17:
                 dealer = deck.deal(dealer)
-                deck.displayDealerHand(dealer,reveal)
-            if deck.handValue(dealer) > 21:
-                print("Dealer busts")
-                playerTurn = True
+                #print(len(dealer))
+                pygame.time.delay(500)
+                deck.displayDealerHand(dealer)
+            elif deck.handValue(dealer) > 21:
                 winner = "Player Wins!"
-            print("Dealer Hand Value: ", deck.handValue(dealer))
-        
+                
         #Deals with win cases
-        if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None:
-            winner = deck.winCheck()
-            playerTurn = True
+        if playerTurn == False and deck.handValue(dealer) >= 17 and winner == None and gameOver == False:
+            winner = deck.winCheck(dealer, player)
             
-        if winner != None:
+        if winner != None and start == False and bet != 0 and gameOver == False:
+            screen.blit(pygame.transform.scale(background, screen.get_size()), (0,0))
+            if winner == "Player Wins!":
+                bank += 2*bet
+            if winner == "Push!":
+                bank += bet
+            pygame.time.delay(300)
             font = pygame.font.Font('freesansbold.ttf', 32)
             text = font.render(winner, True, 'black')
+            deck.drawScreen(player, dealer)
             textRect = text.get_rect()
-            textRect.center = (screen.get_width() // 2, screen.get_height() // 2)
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 1.75)
             screen.blit(text, textRect)
-            
-    
+            bet = 0
+            deck.displayMoney(bet, bank)
+            player = []
+            dealer = []
+
     pygame.display.update()
-    clock.tick(60)
+    
+    
+
+
+

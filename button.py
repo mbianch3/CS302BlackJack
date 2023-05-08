@@ -1,16 +1,15 @@
 class Button():
-    def __init__(self,font,colorL,colorD,width,height,text):
-        self.font = font
-        self.colorL = colorL
-        self.colorD = colorD
+    def __init__(self,width,height, image, imageL):
         self.width = width
         self.height = height
-        self.text = text
+        self.image = image
+        self.imageL = imageL
         
 class chipButton():
-    def __init__(self,value,width,height,image, xpos, ypos):
+    def __init__(self,value, image, imageL, width,height, xpos, ypos):
         self.value = value
         self.image = image
+        self.imageL = imageL
         self.width = width
         self.height = height
         self.xpos = xpos
