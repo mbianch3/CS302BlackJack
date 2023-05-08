@@ -1,4 +1,5 @@
-# Matthew Bianchi
+# Matthew Bianchi and John Kutbay
+# COSC 302 Final Project pyGame Blackjack
 
 import pygame
 from pygame.locals import *
