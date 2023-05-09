@@ -64,6 +64,8 @@ playerTurn = True
 betting = True
 gameOver = False
 winner = None
+
+#List hands for player and dealer
 player = []
 dealer = []
 bet = 0
