@@ -262,7 +262,7 @@ while True:
         #Draws dealer and player final hands
         deck.drawScreen(player, dealer)
         #prints winner to screen
-        functions.displayText(winner, screen.get_width()//2, screen.get_height() // 1.75, 48)
+        functions.displayText(winner, screen.get_width()//2, screen.get_height() // 1.75, 32)
         bet = 0
         deck.displayMoney(bet, bank)
         #Clears hands

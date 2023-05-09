@@ -55,11 +55,11 @@ class CardDeck:
     
     #Draws dealers handValue
     def drawDealerValue(self, value):
-        functions.displayText((f"Hand Value: {value}"), self.screen.get_width()//2, self.screen.get_height()//3, 48)
+        functions.displayText((f"Hand Value: {value}"), self.screen.get_width()//2, self.screen.get_height()//3, 32)
         
     #Draws players handValue
     def drawPlayerValue(self, value):
-        functions.displayText((f"Hand Value: {value}"), self.screen.get_width()//2, self.screen.get_height()//1.5, 48)
+        functions.displayText((f"Hand Value: {value}"), self.screen.get_width()//2, self.screen.get_height()//1.5, 32)
         
     #Used for play again screen to keep only the cards on screen
     def drawScreen(self, player, dealer):
@@ -160,13 +160,5 @@ class CardDeck:
     
     #Displays the bet and bank of the player to the screen
     def displayMoney(self, bet, bank):
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        betText = font.render(f"BET: {bet}", True, 'black')
-        betTextRect = betText.get_rect()
-        betTextRect.center = (self.screen.get_width() // 4.5, self.screen.get_height() // 1.25)
-        self.screen.blit(betText, betTextRect)
-        
-        bankText = font.render(f"BANK: {bank}", True, 'black')
-        bankTextRect = bankText.get_rect()
-        bankTextRect.center = (self.screen.get_width() // 5, self.screen.get_height() // 8)
-        self.screen.blit(bankText, bankTextRect)
+        functions.displayText((f"BET: {bet}"), self.screen.get_width() // 4.5, self.screen.get_height() // 1.25, 32)
+        functions.displayText((f"BANK: {bank}"), self.screen.get_width() // 5, self.screen.get_height() // 8, 32)

@@ -27,7 +27,7 @@ def gameWindow():
 
 #helper functon for displaying Text to screen
 def displayText(text, x, y, size):
-  Font = pygame.font.SysFont('freesansbold.ttf', size)
+  Font = pygame.font.SysFont('arialblack', size)
   Text = Font.render(text, True, 'black')
   TextRect = Text.get_rect()
   TextRect.center = (x,y)
