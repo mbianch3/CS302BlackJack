@@ -187,6 +187,9 @@ while True:
                 dealer = deck.deal(dealer)
                 player = deck.deal(player)
                 dealer = deck.deal(dealer)
+
+                #If you want to test with specific cards
+                #player/dealer[index] = cardDeck.Card(Value,"Suit") where Value = 1-13 and Suit = D,H,S,C
                 
                 #Prints starting hands with dealer first card hidden
                 deck.initialDeal(player, dealer)
@@ -206,7 +209,6 @@ while True:
                     playerTurn = False
                     pygame.time.delay(500)
                     deck.displayDealerHand(dealer)
-                pygame.time.delay(300)
                 pygame.display.flip()
                 
         #If the exit button is pressed in the top right screen closes

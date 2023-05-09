@@ -95,6 +95,7 @@ class CardDeck:
     
     #Displays dealer hand whenever the dealer hits flipping the hidden card and displaying new cards
     def displayDealerHand(self, hand):
+        
         width = self.screen.get_width()
         #Used to print hidden card in dealers hand
         if(len(hand) == 2):
